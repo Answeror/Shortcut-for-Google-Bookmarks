@@ -1,0 +1,20 @@
+{
+  "name": "Shortcut for Google Bookmarks",
+  "version": "1.2",
+  "description": "Click to add bookmark, and double click to manage bookmark. Assign any keyboard shortcut as you wish.",
+  "browser_action": {
+    "default_title": "Click to add bookmark. \nDouble click to manage bookmark.",
+    "default_icon": "img/icon.png"
+  },
+  "background_page": "background.html",
+  "options_page": "options.html",
+  "permissions": ["tabs", "contextMenus"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "ftp://*/*"],
+      "js": ["js/shortcut.js", "js/settings.js", "js/content.js"],
+	  "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

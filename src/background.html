@@ -1,0 +1,58 @@
+<!DOCTYPE html> 
+<html> 
+<script type="text/javascript" src="/js/functions.js"></script>
+<script type="text/javascript" src="/js/settings.js"></script>
+<script type="text/javascript">
+var lastTime = new Date().getTime();
+var isInManage = false;
+var delayTime = 500;
+var bkg = chrome.extension.getBackgroundPage();
+function add(tab) {
+	var c = encodeURIComponent;
+	if (bkg.settings.popupOnAdd) chrome.windows.create({ url: "http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=" + c(tab.url) + "&title=" + c(tab.title), type: "popup", height: 500, width: 550 });
+	else chrome.tabs.create({url:"http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk="+c(tab.url)+"&title="+c(tab.title)});
+}
+function manage() {
+    chrome.tabs.create({url:"http://www.google.com/bookmarks/"});
+}
+chrome.browserAction.onClicked.addListener(function(tab) {
+    var currentTime = new Date().getTime();
+    // alert("click");
+    if (currentTime - lastTime > delayTime) {
+        // alert("add");
+        // set manage flag
+        isInManage = false;
+        setTimeout(function() {
+            // check if is in manage now
+            if (isInManage) return;
+            add(tab);
+        }, 500);
+    } else {
+        // alert("manage");
+        // set manage flag
+        isInManage = true;
+        manage();
+    }
+    // update time
+    lastTime = currentTime;
+});
+chrome.extension.onRequest.addListener(
+    function(request, sender, sendResponse) {
+    if (request.command == "add") {
+        chrome.tabs.getSelected(null, add);
+    } else if (request.command == "manage") {
+        manage();
+    }
+    sendResponse({}); // snub them.
+   });
+chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
+	if (request.method == "getShortcutKey")
+		sendResponse({
+			add: bkg.settings.shortcutKeyAdd,
+			manage: bkg.settings.shortcutKeyManage
+		});
+	else
+   		sendResponse({}); // snub them.
+});
+</script>
+</html>
