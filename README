@@ -1,0 +1,13 @@
+Click to add bookmark, and double click to manage bookmark. Assign any keyboard shortcut as you wish.
+
+Because of the branding guidelines of the Chrome Web Store, I changed the name "Pure Google Bookmark" to "Shortcut for Google Bookmarks".
+
+Note: Keyboard shortcut only active when you are focusing on the page itself.
+
+@update in 1.2
+
+Add an option page to specify keyboard shortcut and window behavior.
+
+@update in 1.2.1
+
+Remove duplicated onRequest in background.html.
