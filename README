@@ -10,4 +10,5 @@ Add an option page to specify keyboard shortcut and window behavior.
 
 @update in 1.2.1
 
-Remove duplicated onRequest in background.html.
+Remove duplicated onRequest in background.html. Then the keyboard shortcut works fine.
+Auto close popup window after bookmarks been added.

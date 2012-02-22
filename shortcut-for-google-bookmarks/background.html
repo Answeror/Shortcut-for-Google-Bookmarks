@@ -51,5 +51,13 @@ chrome.extension.onRequest.addListener(
             sendResponse({}); // snub them.
         }
    });
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if(changeInfo.status == "loading") {
+        var re = /https:\/\/www\.google\.com\/bookmarks\/mark\?sig=.*btnA$/
+        if(re.test(tab.url)) {
+            chrome.tabs.remove(tabId);
+        }
+    }
+});
 </script>
 </html>
