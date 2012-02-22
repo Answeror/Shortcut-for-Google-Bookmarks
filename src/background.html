@@ -38,21 +38,18 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
-    if (request.command == "add") {
-        chrome.tabs.getSelected(null, add);
-    } else if (request.command == "manage") {
-        manage();
-    }
-    sendResponse({}); // snub them.
+        if (request.command == "add") {
+            chrome.tabs.getSelected(null, add);
+        } else if (request.command == "manage") {
+            manage();
+        } else if (request.method == "getShortcutKey") {
+            sendResponse({
+                add: bkg.settings.shortcutKeyAdd,
+                manage: bkg.settings.shortcutKeyManage
+            });
+        } else {
+            sendResponse({}); // snub them.
+        }
    });
-chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
-	if (request.method == "getShortcutKey")
-		sendResponse({
-			add: bkg.settings.shortcutKeyAdd,
-			manage: bkg.settings.shortcutKeyManage
-		});
-	else
-   		sendResponse({}); // snub them.
-});
 </script>
 </html>
